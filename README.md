@@ -69,7 +69,9 @@ Final code optimization, and visualization refinement were completed by **Alejan
 
 Supervised by **Prof. Nadine Töpfer**.  
 
-Developed as part of the **CEPLAS** initiative on theoretical and computational plant systems biology.
+Developed as part of the **CEPLAS** initiative on theoretical and computational plant systems biology (EXC-2048/1 — project ID390686111).
+
+CRC TRR 341 (project ID 456082119).
 
 ---
 
