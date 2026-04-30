@@ -1,0 +1,29 @@
+Ids,Arabidopsis (mM/gDW),Maize (mM/gDW),Arabidopsis (%),Maize (%),Classes,Arabidopsis Source Paper,Maize Source Paper
+Starch_b,"0,265","0,152","9,643091885","21,17180656",Carbohydrate,ARAGem,Simmons
+MALTOSE_c,"0,00260958","0,0000559","0,09496007442","0,00778621044",Carbohydrate,AraCore,Simmons
+GLC_c,"0,01847868","0,0292","0,6724211666","4,067215471",Carbohydrate,AraCore,Simmons
+sSUCROSE_b,"0,03066837","0,194","1,115992113","27,02191101",Carbohydrate,AraCore,Simmons
+FRU_c,"0,0120349","0,00279","0,4379382888","0,388614081",Carbohydrate,AraCore,Simmons
+Cellulose_b,"0,305","0,02649","11,09865292","3,689744447",Cell Wall,ARAGem,IRS BIomass
+sMAL_b,"0,05099641","0,006","1,855709688","0,8357292065",Soluble Metabolite,AraCore,Seaver
+PALMITATE_c,"0,026","0,0258","0,9461146755","3,593635588",Lipid,ARAGem,Simmons
+sGLN_b,"0,0512643","0,0087","1,865457945","1,211807349",Protein,AraCore,Seaver
+sASP_b,"0,10103805","0,0135","3,676676226","1,880390715",Protein,AraCore,Seaver
+sGLU_b,"0,11639401","0,016","4,235464654","2,228611217",Protein,AraCore,Seaver
+sASN_b,"0,0705431","0,0078","2,566994699","1,086447968",Protein,AraCore,Seaver
+sSER_b,"0,14749851","0,0182","5,367327112","2,53504526",Protein,AraCore,Seaver
+sCYS_b,"0,03111756","0,0045","1,132337699","0,6267969048",Protein,AraCore,Seaver
+sTHR_b,"0,1366831","0,0151","4,973764877","2,103251836",Protein,AraCore,Seaver
+sGLY_b,"0,27348273","0,0418","9,951770167","5,822246805",Protein,AraCore,Seaver
+sMET_b,"0,03361497","0,0059","1,223216017","0,8218003864",Protein,AraCore,Seaver
+sPRO_b,"0,10803688","0,0157","3,931356833","2,186824757",Protein,AraCore,Seaver
+sALA_b,"0,23067099","0,036","8,393892648","5,014375239",Protein,AraCore,Seaver
+sARG_b,"0,07468248","0,0112","2,717622705","1,560027852",Protein,AraCore,Seaver
+sLYS_b,"0,10359352","0,0119","3,769667291","1,657529593",Protein,AraCore,Seaver
+sHIS_b,"0,0332443","0,0044","1,209727696","0,6128680847",Protein,AraCore,Seaver
+sILE_b,"0,08982686","0,0117","3,268711942","1,629671953",Protein,AraCore,Seaver
+sLEU_b,"0,15877115","0,0241","5,777527502","3,356845646",Protein,AraCore,Seaver
+sPHE_b,"0,06666173","0,008","2,425755425","1,114305609",Protein,AraCore,Seaver
+sTRP_b,"0,01687103","0,002","0,613920349","0,2785764022",Protein,AraCore,Seaver
+sTYR_b,"0,04702921","0,0048","1,711347144","0,6685833652",Protein,AraCore,Seaver
+sVAL_b,"0,14626883","0,0203","5,322580255","2,827550482",Protein,AraCore,Seaver

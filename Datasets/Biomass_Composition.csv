@@ -1,0 +1,29 @@
+Ids,Arabidopsis (mM/gDW),Arabidopsis (%),Classes,Arabidopsis Source Paper
+Starch_b,265,"9,643091885",Carbohydrate,ARAGem
+MALTOSE_c,"0,00260958","0,09496007442",Carbohydrate,AraCore
+GLC_c,"0,01847868","0,6724211666",Carbohydrate,AraCore
+sSUCROSE_b,"0,03066837","1,115992113",Carbohydrate,AraCore
+FRU_c,"0,0120349","0,4379382888",Carbohydrate,AraCore
+Cellulose_b,305,"11,09865292",Cell Wall,ARAGem
+sMAL_b,"0,05099641","1,855709688",Soluble Metabolite,AraCore
+PALMITATE_c,26,"0,9461146755",Lipid,ARAGem
+sGLN_b,"0,0512643","1,865457945",Protein,AraCore
+sASP_b,"0,10103805","3,676676226",Protein,AraCore
+sGLU_b,"0,11639401","4,235464654",Protein,AraCore
+sASN_b,"0,0705431","2,566994699",Protein,AraCore
+sSER_b,"0,14749851","5,367327112",Protein,AraCore
+sCYS_b,"0,03111756","1,132337699",Protein,AraCore
+sTHR_b,"0,1366831","4,973764877",Protein,AraCore
+sGLY_b,"0,27348273","9,951770167",Protein,AraCore
+sMET_b,"0,03361497","1,223216017",Protein,AraCore
+sPRO_b,"0,10803688","3,931356833",Protein,AraCore
+sALA_b,"0,23067099","8,393892648",Protein,AraCore
+sARG_b,"0,07468248","2,717622705",Protein,AraCore
+sLYS_b,"0,10359352","3,769667291",Protein,AraCore
+sHIS_b,"0,0332443","1,209727696",Protein,AraCore
+sILE_b,"0,08982686","3,268711942",Protein,AraCore
+sLEU_b,"0,15877115","5,777527502",Protein,AraCore
+sPHE_b,"0,06666173","2,425755425",Protein,AraCore
+sTRP_b,"0,01687103","0,613920349",Protein,AraCore
+sTYR_b,"0,04702921","1,711347144",Protein,AraCore
+sVAL_b,"0,14626883","5,322580255",Protein,AraCore
