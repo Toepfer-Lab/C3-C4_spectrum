@@ -1,4 +1,4 @@
-# Integration of Anatomical Constraints in Plant Metabolic Models
+# Metabolic modeling links leaf anatomy to environment-specific benefits on the C3-C4 spectrum
 
 A computational framework for incorporating anatomical parameters into constraint-based models of plant photosynthesis. This project explores how anatomical traits, specifically the Bundle Sheath to Mesophyll volume ratio ($V_{BS}/V_{M}$) and suberisation influence metabolic fluxes and photosyntetic optimality across C3, C3–C4 intermediate, and C4 photosynthetic types.
 
