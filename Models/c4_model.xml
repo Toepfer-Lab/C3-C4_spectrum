@@ -3197,7 +3197,6 @@
       <parameter sboTerm="SBO:0000625" id="R___91__M__93___4_PERIOD_2_PERIOD_1_PERIOD_58_RXN_p_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__B__93___4_PERIOD_2_PERIOD_1_PERIOD_58_RXN_p_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__B__93___4_PERIOD_2_PERIOD_1_PERIOD_58_RXN_p_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__B__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__M__93___PRO_mc_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
@@ -4125,8 +4124,6 @@
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___WATER_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___Charged_TYR_tRNAs_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___Charged_TYR_tRNAs_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___aL_GLUTAMATE_5_P_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___aL_GLUTAMATE_5_P_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___MGII_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___MGII_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___PYRUVATE_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
@@ -4225,12 +4222,8 @@
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___TYR_tRNAs_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___CPD_468_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___CPD_468_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___aDTTP_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___aDTTP_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___Charged_ILE_tRNAs_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___Charged_ILE_tRNAs_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___DTTP_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___DTTP_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___1_L_MYO_INOSITOL_1_P_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___1_L_MYO_INOSITOL_1_P_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___SULFATE_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
@@ -4267,8 +4260,6 @@
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___GLYCERATE_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___PHOSPHORYL_CHOLINE_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___PHOSPHORYL_CHOLINE_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___ACETYL_COA_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
-      <parameter sboTerm="SBO:0000625" id="R___91__MB__93___ACETYL_COA_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___ASN_tRNAs_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___ASN_tRNAs_c_upper_bound" value="9999" units="mmol_per_gDW_per_hr" constant="true"/>
       <parameter sboTerm="SBO:0000625" id="R___91__MB__93___GLY_tRNAs_c_lower_bound" value="-9999" units="mmol_per_gDW_per_hr" constant="true"/>
@@ -16605,7 +16596,7 @@
           <speciesReference species="M___91__B__93___WATER_p" stoichiometry="1" constant="true"/>
         </listOfProducts>
       </reaction>
-      <reaction id="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p" name="1.18.1.2-RXN:Ferredoxin--NADP(+) reductase" reversible="true" fast="false" fbc:lowerFluxBound="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p_lower_bound" fbc:upperFluxBound="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p_upper_bound">
+      <reaction id="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p" name="1.18.1.2-RXN:Ferredoxin--NADP(+) reductase" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R___91__M__93___1_PERIOD_18_PERIOD_1_PERIOD_2_RXN_p_upper_bound">
         <listOfReactants>
           <speciesReference species="M___91__M__93___NADP_p" stoichiometry="1" constant="true"/>
           <speciesReference species="M___91__M__93___PROTON_p" stoichiometry="1" constant="true"/>
@@ -24469,14 +24460,6 @@
           <speciesReference species="M___91__B__93___Charged_TYR_tRNAs_c" stoichiometry="1" constant="true"/>
         </listOfProducts>
       </reaction>
-      <reaction id="R___91__MB__93___aL_GLUTAMATE_5_P_c" name="[MB]_aL_GLUTAMATE_5_P_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___aL_GLUTAMATE_5_P_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___aL_GLUTAMATE_5_P_c_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M___91__M__93___aL_GLUTAMATE_5_P_c" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M___91__B__93___aL_GLUTAMATE_5_P_c" stoichiometry="1" constant="true"/>
-        </listOfProducts>
-      </reaction>
       <reaction id="R___91__MB__93___MGII_c" name="[MB]_MGII_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___MGII_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___MGII_c_upper_bound">
         <listOfReactants>
           <speciesReference species="M___91__M__93___MGII_c" stoichiometry="1" constant="true"/>
@@ -24869,28 +24852,12 @@
           <speciesReference species="M___91__B__93___CPD_468_c" stoichiometry="1" constant="true"/>
         </listOfProducts>
       </reaction>
-      <reaction id="R___91__MB__93___aDTTP_c" name="[MB]_aDTTP_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___aDTTP_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___aDTTP_c_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M___91__M__93___aDTTP_c" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M___91__B__93___aDTTP_c" stoichiometry="1" constant="true"/>
-        </listOfProducts>
-      </reaction>
       <reaction id="R___91__MB__93___Charged_ILE_tRNAs_c" name="[MB]_Charged_ILE_tRNAs_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___Charged_ILE_tRNAs_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___Charged_ILE_tRNAs_c_upper_bound">
         <listOfReactants>
           <speciesReference species="M___91__M__93___Charged_ILE_tRNAs_c" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="M___91__B__93___Charged_ILE_tRNAs_c" stoichiometry="1" constant="true"/>
-        </listOfProducts>
-      </reaction>
-      <reaction id="R___91__MB__93___DTTP_c" name="[MB]_DTTP_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___DTTP_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___DTTP_c_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M___91__M__93___DTTP_c" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M___91__B__93___DTTP_c" stoichiometry="1" constant="true"/>
         </listOfProducts>
       </reaction>
       <reaction id="R___91__MB__93___1_L_MYO_INOSITOL_1_P_c" name="[MB]_1_L_MYO_INOSITOL_1_P_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___1_L_MYO_INOSITOL_1_P_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___1_L_MYO_INOSITOL_1_P_c_upper_bound">
@@ -25035,14 +25002,6 @@
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="M___91__B__93___PHOSPHORYL_CHOLINE_c" stoichiometry="1" constant="true"/>
-        </listOfProducts>
-      </reaction>
-      <reaction id="R___91__MB__93___ACETYL_COA_c" name="[MB]_ACETYL_COA_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___ACETYL_COA_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___ACETYL_COA_c_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M___91__M__93___ACETYL_COA_c" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M___91__B__93___ACETYL_COA_c" stoichiometry="1" constant="true"/>
         </listOfProducts>
       </reaction>
       <reaction id="R___91__MB__93___ASN_tRNAs_c" name="[MB]_ASN_tRNAs_c" reversible="true" fast="false" fbc:lowerFluxBound="R___91__MB__93___ASN_tRNAs_c_lower_bound" fbc:upperFluxBound="R___91__MB__93___ASN_tRNAs_c_upper_bound">

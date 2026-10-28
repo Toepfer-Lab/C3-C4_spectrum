@@ -581,7 +581,7 @@ def reaction_lineplot_VRatio(data, PPFD, Vc_Vo, CO2, PC_BS, NH3):
     g = sns.relplot(data=photo_df_melted, x="V_BS_M", y="Rubisco_Value", hue="Reactions", kind="line", linewidth=3, style="Reactions", dashes=line_styles, palette=custom_palette, alpha= .7, height=4, aspect=5/4)    
     g.tight_layout()
     g.set_xticklabels(rotation = 45)
-    g.set(xlabel="V$_{BS}$/V$_{M}$ (Unitless)", ylabel="Flux Value \n µmol cell type⁻¹ s$^{-1}$", xlim=(.1, 2), ylim=(0, 25))
+    g.set(xlabel="BS-M anatomy", ylabel="Flux Value \n µmol cell type⁻¹ s$^{-1}$", xlim=(.1, 2), ylim=(0, 25))
     return g
 
 def reaction_lineplot_VRatio_split(data, PPFD, Vc_Vo, CO2, PC_BS, NH3):
@@ -664,7 +664,7 @@ def reaction_lineplot_VRatio_split(data, PPFD, Vc_Vo, CO2, PC_BS, NH3):
     g1.set(xticks=np.arange(0.2, 2.01, 0.2))
     g1.set_xticklabels(rotation=45)
     g1.set(
-        xlabel="V$_{BS}$/V$_{M}$ (Unitless)",
+        xlabel="BS-M anatomy",
         ylabel="Flux Value \n µmol cell type⁻¹ s$^{-1}$" ,
         xlim=(0.5, 2),
         ylim=(0, 25)
@@ -722,7 +722,7 @@ def reaction_lineplot_VRatio_split(data, PPFD, Vc_Vo, CO2, PC_BS, NH3):
     g2.set(xticks=np.arange(0.2, 2.01, 0.2))
     g2.set_xticklabels(rotation=45)
     g2.set(
-        xlabel="V$_{BS}$/V$_{M}$ (Unitless)",
+        xlabel="BS-M anatomy",
         ylabel="Flux Value \n µmol cell type⁻¹ s$^{-1}$",
         xlim=(0.5, 2),
         ylim=(0, 25)
@@ -1226,97 +1226,249 @@ def comparison_QuantumYield_barplots_3D_v2(df_C3, df_C4, PPFD, Vc_Vo, CO2, PC_BS
     return chart
 
 
-def metabolic_comparison_subplots(df_C3, df_C4, PPFD, Vc_Vo, CO2, PC_BS, NH3):
-    plt.rcParams.update({
-        'font.size': 14,
-        'axes.titlesize': 20,
-        'axes.labelsize': 16,
-        'xtick.labelsize': 14,
-        'ytick.labelsize': 14,
-        'legend.fontsize': 14})
+def metabolic_comparison_subplots(
+    df_C3, df_C4, PPFD, Vc_Vo, CO2, PC_BS, NH3
+):
+    plt.rcParams.update(
+        {
+            "font.size": 14,
+            "axes.titlesize": 20,
+            "axes.labelsize": 16,
+            "xtick.labelsize": 14,
+            "ytick.labelsize": 14,
+            "legend.fontsize": 14,
+        }
+    )
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(20, 8), sharex=False)
     volume_ratios = [0.5, 1, 1.5, 2]
-    color_map = {'C3': '#64a4ceff', 'C3_C4_Type_I': '#e6954cfb', 'C4': '#69c569fe', 'Unidentified': '#884405fb'}
-    
+
+    # Reordered color map: C3 -> Pre-C2 (Unidentified) -> Intermediates -> C4
+    color_map = {
+        "C3": "#64a4ceff",
+        "Pre-C2": "#884405fb",  # Formerly Unidentified
+        "C3-C4 Intermediates": "#e6954cfb",  # Handles Type_I and Type_II
+        "C4": "#69c569fe",
+    }
+
+    # Data key mapping for photosynthesis values
+    key_color_map = {
+        "C3": "#64a4ceff",
+        "Unidentified": "#884405fb",
+        "C3_C4_Type_I": "#e6954cfb",
+        "C3_C4_Type_II": "#e6954cfb",
+        "C4": "#69c569fe",
+    }
+
     def get_data():
-        s_C3 = select_data(prepared_df=df_C3, PPFD=PPFD, Vc_Vo=Vc_Vo, CO2=CO2, PC_BS=PC_BS, NH3=NH3)
-        s_C4 = select_data(prepared_df=df_C4, PPFD=PPFD, Vc_Vo=Vc_Vo, CO2=CO2, PC_BS=PC_BS, NH3=NH3)
+        s_C3 = select_data(
+            prepared_df=df_C3,
+            PPFD=PPFD,
+            Vc_Vo=Vc_Vo,
+            CO2=CO2,
+            PC_BS=PC_BS,
+            NH3=NH3,
+        )
+        s_C4 = select_data(
+            prepared_df=df_C4,
+            PPFD=PPFD,
+            Vc_Vo=Vc_Vo,
+            CO2=CO2,
+            PC_BS=PC_BS,
+            NH3=NH3,
+        )
         s_C3 = s_C3[s_C3.V_BS_M.isin(volume_ratios)].copy()
         s_C4 = s_C4[s_C4.V_BS_M.isin(volume_ratios)].copy()
-        s_C3['Classification'] = "C3"
-        s_C4['Classification'] = "Variable"
+        s_C3["Classification"] = "C3"
+        s_C4["Classification"] = "Variable"
         return pd.concat([s_C3, s_C4])
 
     df_combined = get_data()
 
+    # Column mappings configured to plot: [Bottom (M), Middle (BS), Top (Transport)]
     plot_configs = [
-        (ax1, "Sum of Fluxes", "SoF transport", "SoF M", "SoF BS", True),
-        (ax3, "Light Uptake", "Light Mesophyll", "Light Bundle Sheath", None, False),
-        (ax2, "ATP Turnover", "ATP M", "ATP BS", None, False)]
+        (ax1, "Sum of fluxes", "SoF M", "SoF BS", "SoF transport", True),
+        (
+            ax3,
+            "Light uptake",
+            "Light Mesophyll",
+            "Light Bundle Sheath",
+            None,
+            False,
+        ),
+        (ax2, "ATP turnover", "ATP M", "ATP BS", None, False),
+    ]
 
-    bar_width = 0.36  
-    group_gap = 0.12  
-    
-    hatch_params = {'edgecolor': 'black', 'linewidth': 0}
+    bar_width = 0.36
+    group_gap = 0.12
 
-    for ax, title, col1, col2, col3, has_tr in plot_configs:
+    hatch_params = {"edgecolor": "black", "linewidth": 0}
+
+    for ax, title, col_m, col_bs, col_tr, has_tr in plot_configs:
         tick_positions = []
         tick_labels = []
 
         for i, vol in enumerate(volume_ratios):
-            vol_data = df_combined[df_combined['V_BS_M'] == vol]
+            vol_data = df_combined[df_combined["V_BS_M"] == vol]
             for j, cls in enumerate(["C3", "Variable"]):
-                row = vol_data[vol_data['Classification'] == cls]
-                if row.empty: continue
-                
-                base_color = color_map.get(row['Photosynthesis'].iloc[0], 'black')
-                pos = i * 1.2 + (j * (bar_width + group_gap)) 
+                row = vol_data[vol_data["Classification"] == cls]
+                if row.empty:
+                    continue
+
+                base_color = key_color_map.get(
+                    row["Photosynthesis"].iloc[0], "black"
+                )
+                pos = i * 1.2 + (j * (bar_width + group_gap))
                 tick_positions.append(pos)
                 tick_labels.append(cls)
 
-                v1 = row[col1].iloc[0]
-                v2 = row[col2].iloc[0]
+                v_m = row[col_m].iloc[0]
+                v_bs = row[col_bs].iloc[0]
 
-                if has_tr: 
-                    v3 = row[col3].iloc[0]
-                    ax.bar(pos, v1, width=bar_width, color=base_color, hatch='..', **hatch_params)
-                    ax.bar(pos, v2, bottom=v1, width=bar_width, color=base_color, hatch='//', **hatch_params)
-                    ax.bar(pos, v3, bottom=v1+v2, width=bar_width, color=base_color, **hatch_params)
-                    
-                    # Draw the internal dividers
-                    ax.hlines(y=[v1, v1 + v2], xmin=pos - bar_width/2, xmax=pos + bar_width/2, color='black', linewidth=1)
-                else: 
-                    ax.bar(pos, v1, width=bar_width, color=base_color, hatch='//', **hatch_params)
-                    ax.bar(pos, v2, bottom=v1, width=bar_width, color=base_color, **hatch_params)
-                    
-                    # Draw the single internal divider
-                    ax.hlines(y=v1, xmin=pos - bar_width/2, xmax=pos + bar_width/2, color='black', linewidth=1)
+                if has_tr:
+                    v_tr = row[col_tr].iloc[0]
 
-        ax.set_title(title, fontweight='bold', pad=25)
+                    # 1. Bottom: Mesophyll (Striped)
+                    ax.bar(
+                        pos,
+                        v_m,
+                        width=bar_width,
+                        color=base_color,
+                        hatch="//",
+                        **hatch_params,
+                    )
+                    # 2. Middle: Bundle Sheath (Dotted)
+                    ax.bar(
+                        pos,
+                        v_bs,
+                        bottom=v_m,
+                        width=bar_width,
+                        color=base_color,
+                        hatch="..",
+                        **hatch_params,
+                    )
+                    # 3. Top: Transport (Plain)
+                    ax.bar(
+                        pos,
+                        v_tr,
+                        bottom=v_m + v_bs,
+                        width=bar_width,
+                        color=base_color,
+                        **hatch_params,
+                    )
+
+                    # Draw internal dividers
+                    ax.hlines(
+                        y=[v_m, v_m + v_bs],
+                        xmin=pos - bar_width / 2,
+                        xmax=pos + bar_width / 2,
+                        color="black",
+                        linewidth=1,
+                    )
+                else:
+                    # 1. Bottom: Mesophyll (Striped)
+                    ax.bar(
+                        pos,
+                        v_m,
+                        width=bar_width,
+                        color=base_color,
+                        hatch="//",
+                        **hatch_params,
+                    )
+                    # 2. Top: Bundle Sheath (Dotted)
+                    ax.bar(
+                        pos,
+                        v_bs,
+                        bottom=v_m,
+                        width=bar_width,
+                        color=base_color,
+                        hatch="..",
+                        **hatch_params,
+                    )
+
+                    # Draw single internal divider
+                    ax.hlines(
+                        y=v_m,
+                        xmin=pos - bar_width / 2,
+                        xmax=pos + bar_width / 2,
+                        color="black",
+                        linewidth=1,
+                    )
+
+        ax.set_title(title, fontweight="bold", pad=25)
         ax.set_xticks(tick_positions)
-        ax.set_xticklabels(tick_labels, rotation=45, ha='right')
-        ax.spines[['top', 'right']].set_visible(False)
+        ax.set_xticklabels(tick_labels, rotation=45, ha="right")
+        ax.spines[["top", "right"]].set_visible(False)
 
         for i, vol in enumerate(volume_ratios):
             group_center = i * 1.2 + (bar_width + group_gap) / 2
-            ax.text(group_center, -0.18, f"{vol}", transform=ax.get_xaxis_transform(),
-                    ha='center', va='top', fontsize=14)
+            ax.text(
+                group_center,
+                -0.18,
+                f"{vol}",
+                transform=ax.get_xaxis_transform(),
+                ha="center",
+                va="top",
+                fontsize=14,
+            )
 
     ax1.set_ylabel("Flux (µmol cell type⁻¹ s⁻¹)", fontsize=18)
-    ax2.text(0.5, -0.3, r"$V_{BS/M}$ ratio", transform=ax2.transAxes, ha='center', fontsize=18)
+    ax2.text(
+        0.5,
+        -0.3,
+        r"BS-M anatomy",
+        transform=ax2.transAxes,
+        ha="center",
+        fontsize=18,
+    )
 
     fill_elements = [
-        Patch(facecolor='lightgray', edgecolor='black', linewidth=0.6, label='Bundle Sheath'),
-        Patch(facecolor='lightgray', edgecolor='black', linewidth=0.6, hatch='//', label='Mesophyll'),
-        Patch(facecolor='lightgray', edgecolor='black', linewidth=0.6, hatch='..', label='Transport')
+        Patch(
+            facecolor="lightgray",
+            edgecolor="black",
+            linewidth=0.6,
+            label="Transport",
+        ),
+        Patch(
+            facecolor="lightgray",
+            edgecolor="black",
+            linewidth=0.6,
+            hatch="..",
+            label="Bundle Sheath",
+        ),
+        Patch(
+            facecolor="lightgray",
+            edgecolor="black",
+            linewidth=0.6,
+            hatch="//",
+            label="Mesophyll",
+        ),
     ]
-    photo_elements = [Patch(facecolor=c, edgecolor='none', linewidth=0, label=l) for l, c in color_map.items()]
-    
-    ax3.legend(handles=photo_elements + [Patch(alpha=0, label="")] + fill_elements, 
-                title="Photosynthetic Type", bbox_to_anchor=(1.05, 1), loc='upper left', frameon=False)
+
+    # Reordered Photosynthetic Types: C3 -> Pre-C2 -> Intermediates -> C4
+    photo_elements = [
+        Patch(
+            facecolor=c,
+            edgecolor="none",
+            linewidth=0,
+            label=r"C3" if l == "C3" else r"Pre-C2" if l == "Pre-C2" else r"C3-C4 Intermediates" if l == "C3-C4 Intermediates" else r"C4",
+        )
+        for l, c in color_map.items()
+    ]
+
+    ax3.legend(
+        handles=photo_elements + [Patch(alpha=0, label="")] + fill_elements,
+        title="Photosynthetic Type",
+        bbox_to_anchor=(1.05, 1),
+        loc="upper left",
+        frameon=False,
+    )
 
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.25, wspace=0.3, right=0.82)
-    plt.savefig("../Images/metabolic_comp_subplots.svg", format="svg", bbox_inches="tight")
+    plt.savefig(
+        "../Images/metabolic_comp_subplots.svg",
+        format="svg",
+        bbox_inches="tight",
+    )
     plt.show()

@@ -400,7 +400,86 @@ def H_Production(df, model):
     
     return M_H_turnover, BS_H_turnover
 
-def photosynthetic_classification(df):   
+import pandas as pd
+
+
+def photosynthetic_classification(df):
+    f = df.copy()
+
+    # Vectorized Filtering (GCV handled separately from [B])
+    for col in f.columns:
+        VM = 1 / (1 + float(col.split("_")[1]))
+        VBS = float(col.split("_")[1]) / (1 + float(col.split("_")[1]))
+        co2_10 = float(col.split("_")[5]) * 0.1
+        co2_1 = float(col.split("_")[5]) * 0.05
+
+        m_gcv = f.index == "[B]_GCVMULTI_RXN_m"
+        m_b = f.index.str.contains(r"\[B\]") & ~m_gcv
+        m_m = f.index.str.contains(r"\[M\]")
+
+        f.loc[m_gcv & (f[col] * VBS).abs().le(co2_1), col] = 0
+        f.loc[m_b & (f[col] * VBS).abs().le(co2_10), col] = 0
+        f.loc[m_m & (f[col] * VM).abs().le(co2_10), col] = 0
+
+    # Classification
+    res = []
+    for c in f.columns:
+        # C3
+        if (
+            f.loc["[M]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] > f.loc["[B]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p_Ex", c]
+            and f.loc["[B]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] == 0
+            and f.loc["[B]_PEPCARBOXYKIN_RXN_c", c] == 0
+            and f.loc["[B]_MALIC_NADP_RXN_p", c] == 0
+            and f.loc["[B]_1_PERIOD_1_PERIOD_1_PERIOD_39_RXN_m", c] == 0
+            and f.loc["[B]_GCVMULTI_RXN_m", c] == 0
+        ):
+            res.append("C3")
+
+        # C3-C4 Type I
+        elif (
+            f.loc["[M]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] != 0
+            and f.loc["[B]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] != 0
+            and f.loc["[B]_GCVMULTI_RXN_m", c] != 0
+            and f.loc["[B]_PEPCARBOXYKIN_RXN_c", c] == 0
+            and f.loc["[B]_MALIC_NADP_RXN_p", c] == 0
+            and f.loc["[B]_1_PERIOD_1_PERIOD_1_PERIOD_39_RXN_m", c] == 0
+        ):
+            res.append("C3_C4_Type_I")
+
+        # C3-C4 Type II
+        elif (
+            f.loc["[M]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] != 0
+            and f.loc["[M]_PEPCARBOX_RXN_c", c] != 0
+            and f.loc["[B]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] != 0
+            and (
+                f.loc["[B]_PEPCARBOXYKIN_RXN_c", c] != 0
+                or f.loc["[B]_MALIC_NADP_RXN_p", c] != 0
+                or f.loc["[B]_1_PERIOD_1_PERIOD_1_PERIOD_39_RXN_m", c] != 0
+            )
+            and f.loc["[B]_GCVMULTI_RXN_m", c] != 0
+        ):
+            res.append("C3_C4_Type_II")
+
+        # C4
+        elif (
+            f.loc["[M]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] == 0
+            and f.loc["[M]_PEPCARBOX_RXN_c", c] != 0
+            and f.loc["[B]_RIBULOSE_BISPHOSPHATE_CARBOXYLASE_RXN_p", c] != 0
+            and (
+                f.loc["[B]_PEPCARBOXYKIN_RXN_c", c] != 0
+                or f.loc["[B]_MALIC_NADP_RXN_p", c] != 0
+                or f.loc["[B]_1_PERIOD_1_PERIOD_1_PERIOD_39_RXN_m", c] != 0
+            )
+        ):
+            res.append("C4")
+
+        # Unidentified
+        else:
+            res.append("Unidentified")
+
+    return res
+    
+def photosynthetic_classification_old(df):   
     
     parameter_scan_filtered = df.copy()
 
@@ -493,12 +572,12 @@ def structure_data(df: pd.DataFrame, model, filename: Optional[str] = None) -> p
     def scale(x, in_min, in_max, out_min, out_max):
         return (x - in_min) / (in_max - in_min) * (out_max - out_min) + out_min
 
-    # 1) if filename exists and is readable, return it
+    #if filename exists and is readable, return it
     #existing = _read_if_exists(filename)
     #if existing is not None:
      #   return existing
 
-    # 2) build from df
+    # build from df
     df_copy = _prepare_indexed_copy(df)
     cols = list(df_copy.columns)
 
@@ -569,6 +648,11 @@ def structure_data(df: pd.DataFrame, model, filename: Optional[str] = None) -> p
     Glutamine_syn_m_M = _get_series_rounded("[M]_GLUTAMINESYN_RXN_m", cols, 1)
     Glutamine_syn_p_M = _get_series_rounded("[M]_GLUTAMINESYN_RXN_p", cols, 1)
 
+    glycolate_oxidase_M =  _get_series_rounded("[M]_RXN_969_x", cols, 1)
+    glycolate_oxidase_B =  _get_series_rounded("[B]_RXN_969_x", cols, 1)
+    phosphoglycolate_phosphatase_M = _get_series_rounded("[M]_GPH_RXN_p", cols, 1)
+    phosphoglycolate_phosphatase_B = _get_series_rounded("[B]_GPH_RXN_p", cols, 1)
+
     # Build result DataFrame (only once)
     rows = list(zip(
         photoresp_ratio_values,
@@ -614,7 +698,11 @@ def structure_data(df: pd.DataFrame, model, filename: Optional[str] = None) -> p
         np.array(Glutamine_syn_p_M) * VM_Norm, #
         np.array(Glutamine_syn_c_B) * VBS_Norm, #
         np.array(Glutamine_syn_m_B) * VBS_Norm, #
-        np.array(Glutamine_syn_p_B) * VBS_Norm #
+        np.array(Glutamine_syn_p_B) * VBS_Norm, #
+        glycolate_oxidase_M, 
+        phosphoglycolate_phosphatase_M,
+        glycolate_oxidase_B, 
+        phosphoglycolate_phosphatase_B,
     ))
 
     columns = [
@@ -625,7 +713,8 @@ def structure_data(df: pd.DataFrame, model, filename: Optional[str] = None) -> p
         "BS_Rubisco_C4", "Glycine Decarboxylase", "PEP-CK", "NADP-ME", "NAD-ME", "PEPC",
         "BS CET", "BS LET", "BS PSI", "BS PSII", "BS Oxygenase", "M Oxygenase",
         "Nitrate_reductase_M", "Nitrate_reductase_B", "Nitrite_reductase_M", "Nitrite_reductase_B", 
-        "Glutamine_syn_c_M", "Glutamine_syn_m_M", "Glutamine_syn_p_M", "Glutamine_syn_c_B", "Glutamine_syn_m_B", "Glutamine_syn_p_B"
+        "Glutamine_syn_c_M", "Glutamine_syn_m_M", "Glutamine_syn_p_M", "Glutamine_syn_c_B", "Glutamine_syn_m_B", "Glutamine_syn_p_B",
+        "Glycolate oxidase M", "Phosphoglycolate phosphatase M", "Glycolate oxidase B", "Phosphoglycolate phosphatase B"
     ]
 
     result = pd.DataFrame(rows, columns=columns)
@@ -716,39 +805,40 @@ def select_data_3D(prepared_df, PPFD, CO2, NH3, PC_BS):
 
 def structure_data_transporters(df,filename): 
     
-    try:
-        result = pd.read_csv(filename)
+    #try:
+     #   result = pd.read_csv(filename)
     
-    except:
+    #except:
     
-        df_copy = df.copy()
-        
-        df_copy.index = df_copy["Unnamed: 0"]
-        df_copy.drop(columns="Unnamed: 0", inplace = True)
-        
-        light_max = [int(column.split("_")[0]) for column in df_copy.columns[0:]]
-        volume_BS_M = [float(column.split("_")[1]) for column in df_copy.columns[0:]]
-        PC_M_values = [float(column.split("_")[2]) for column in df_copy.columns[0:]]
-        PC_BS_values = [float(column.split("_")[3]) for column in df_copy.columns[0:]]
-        photoresp_ratio_values = [float(column.split("_")[4]) for column in df_copy.columns[0:]]
-        maximum_carbon_assimilation = [float(column.split("_")[5]) for column in df_copy.columns[0:]]
-        maximum_nitrogen_assimilation = [float(column.split("_")[6]) for column in df_copy.columns[0:]]
+    df_copy = df.copy()
+    
+    df_copy.index = df_copy["Unnamed: 0"]
+    df_copy.drop(columns="Unnamed: 0", inplace = True)
+    
+    light_max = [int(column.split("_")[0]) for column in df_copy.columns[0:]]
+    volume_BS_M = [float(column.split("_")[1]) for column in df_copy.columns[0:]]
+    PC_M_values = [float(column.split("_")[2]) for column in df_copy.columns[0:]]
+    PC_BS_values = [float(column.split("_")[3]) for column in df_copy.columns[0:]]
+    photoresp_ratio_values = [float(column.split("_")[4]) for column in df_copy.columns[0:]]
+    maximum_carbon_assimilation = [float(column.split("_")[5]) for column in df_copy.columns[0:]]
+    maximum_nitrogen_assimilation = [float(column.split("_")[6]) for column in df_copy.columns[0:]]
 
-        GLY_transport = [round(df_copy.loc["[MB]_GLY_c"][column], 1) for column in df_copy.columns[0:]]
-        GAP_transport = [round(df_copy.loc["[MB]_GAP_c"][column], 1) for column in df_copy.columns[0:]]
-        G3P_transport = [round(df_copy.loc["[MB]_G3P_c"][column], 1) for column in df_copy.columns[0:]]
-        ALA_transport = [round(df_copy.loc["[MB]_L_ALPHA_ALANINE_c"][column], 1) for column in df_copy.columns[0:]]
-        PYR_transport = [round(df_copy.loc["[MB]_PYRUVATE_c"][column], 1) for column in df_copy.columns[0:]]
-        PEP_transport = [round(df_copy.loc["[MB]_PHOSPHO_ENOL_PYRUVATE_c"][column], 1) for column in df_copy.columns[0:]]
-        ASP_transport = [round(df_copy.loc["[MB]_L_ASPARTATE_c"][column], 1) for column in df_copy.columns[0:]]
-        MAL_transport = [round(df_copy.loc["[MB]_MAL_c"][column], 1) for column in df_copy.columns[0:]]
+    GLY_transport = [round(df_copy.loc["[MB]_GLY_c"][column], 1) for column in df_copy.columns[0:]]
+    SER_transport = [round(df_copy.loc["[MB]_SER_c"][column], 1) for column in df_copy.columns[0:]]
+    GAP_transport = [round(df_copy.loc["[MB]_GAP_c"][column], 1) for column in df_copy.columns[0:]]
+    G3P_transport = [round(df_copy.loc["[MB]_G3P_c"][column], 1) for column in df_copy.columns[0:]]
+    ALA_transport = [round(df_copy.loc["[MB]_L_ALPHA_ALANINE_c"][column], 1) for column in df_copy.columns[0:]]
+    PYR_transport = [round(df_copy.loc["[MB]_PYRUVATE_c"][column], 1) for column in df_copy.columns[0:]]
+    PEP_transport = [round(df_copy.loc["[MB]_PHOSPHO_ENOL_PYRUVATE_c"][column], 1) for column in df_copy.columns[0:]]
+    ASP_transport = [round(df_copy.loc["[MB]_L_ASPARTATE_c"][column], 1) for column in df_copy.columns[0:]]
+    MAL_transport = [round(df_copy.loc["[MB]_MAL_c"][column], 1) for column in df_copy.columns[0:]]
+    GLYCOLLATE_transport = [round(df_copy.loc["[MB]_GLYCOLLATE_c"][column], 1) for column in df_copy.columns[0:]]
 
 
-        result = pd.DataFrame(list(zip(photoresp_ratio_values, light_max, volume_BS_M, maximum_nitrogen_assimilation, maximum_carbon_assimilation, PC_M_values, PC_BS_values,
-                                       GLY_transport, GAP_transport, G3P_transport, ALA_transport, PYR_transport, PEP_transport, ASP_transport, MAL_transport)), 
-                                        columns=["Vc_Vo", "PPFD", "V_BS_M", "Maximum Nitrogen Uptake" ,"Maximum Carbon Uptake", "PC_M", "PC_BS", 
-                                                    "GLY", "GAP", "G3P", "ALA", "PYR", "PEP", "ASP", "MAL"])
-        result.to_csv("{}".format(filename))
+    result = pd.DataFrame(list(zip(photoresp_ratio_values, light_max, volume_BS_M, maximum_nitrogen_assimilation, maximum_carbon_assimilation, PC_M_values, PC_BS_values,
+                                       GLY_transport, SER_transport, GAP_transport, G3P_transport, ALA_transport, PYR_transport, PEP_transport, ASP_transport, MAL_transport,GLYCOLLATE_transport)), 
+                                        columns=["Vc_Vo", "PPFD", "V_BS_M", "Maximum Nitrogen Uptake" ,"Maximum Carbon Uptake", "PC_M", "PC_BS", "GLY", "SER", "GAP", "G3P", "ALA", "PYR", "PEP", "ASP", "MAL", "GLYCOL"])
+    result.to_csv("{}".format(filename))
 
     return result
 
